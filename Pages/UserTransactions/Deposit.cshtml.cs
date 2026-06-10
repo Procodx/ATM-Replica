@@ -77,14 +77,15 @@ namespace ATM_Replica.Pages.UserTransactions
 
                 var DepositAmount = new Transaction
                 {
+                    userId = user.Id,
                     amount = howMuch,
                     TransactionType = "Deposit",
                     TransactionDateTime = DateTime.Now,
                 };
-                db.UpdateUserInfo(user);
+               
                 db.CreateTransaction(DepositAmount);
                 user.Transactions.Add(DepositAmount);
-               
+                db.UpdateUserInfo(user);
 
             }
             catch (Exception ex)

@@ -8,6 +8,7 @@ using ATM_Replica.Data.model;
 using ATM_Replica.Data_folder.model_folder;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using System.Web.Helpers;
+using Microsoft.AspNetCore.Http.HttpResults;
 
 namespace ATM_Replica.Data_folder
 {
@@ -16,14 +17,14 @@ namespace ATM_Replica.Data_folder
 
 
         // Connect to MongoDB
-        private const string ConnectionString = "mongodb://localhost:27017";
+        private const string ConnectionString = "mongodb+srv://local_user:P4arbhECPMpaMgaZ@cluster0.mripw6q.mongodb.net/";
         public const string DataBaseName = "Atm_Replica_DB";
         private const string TransactionCollection = "Transaction_chart";
         private const string UserCollection = "Users";
         private const string TransactionHistoryCollection = "Transaction_history";
 
 
-        private IMongoCollection<T> ConnectToMongo<T>(in string collection)
+        private IMongoCollection<T> ConnectToMongo<T>(string collection)
         {
             var client = new MongoClient(ConnectionString);
             var db = client.GetDatabase(DataBaseName);
@@ -35,7 +36,8 @@ namespace ATM_Replica.Data_folder
         {
             var userCollection = ConnectToMongo<User>(UserCollection);
             var userGotten = userCollection.Find(c => c.Email == email);
-            return userGotten.FirstAsync().Result;
+            return userGotten.FirstOrDefaultAsync().Result;
+           
         }
 
         public Task CreateUser(User user)

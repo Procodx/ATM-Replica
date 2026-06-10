@@ -30,14 +30,15 @@ namespace ATM_Replica.Pages
 
             var db = new Db();
            var userLogin =  db.GetUser(Email);
-           
+           if(userLogin != null)
+            {
                 if (userLogin.Email == Email && userLogin.Password == Password)
                 {
                     userInfo = userLogin;
                     return Redirect($"UserTransactions/UserDashboard/{Email}");
 
                 }
-                
+            }
             
             ModelState.AddModelError("", "Invalid password or email.");
             return Page();
